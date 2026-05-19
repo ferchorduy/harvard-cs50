@@ -20,11 +20,15 @@ int main(void) {
 long get_card_number(void)
 {
     long int card_number;
-    long int result;
+    int result;
     do
     {
       printf("Number: ");
       result = scanf("%li", &card_number);
+      if (result != 1)
+      {
+          while (getchar() != '\n');
+      }
     }
     while (result != 1);
     return card_number;
@@ -49,43 +53,36 @@ int get_length_of_card_number(long card_number)
 // Returns a sum from checksum algorithm to determine is last digit of sum is 0
 int calculate_checksum(long card_number)
 {
-
-    int first_sum = 0;
-    int second_sum = 0;
+    int normal_sum = 0;
+    int doubled_sum = 0;
     int should_double = 0;
 
     while (card_number != 0)
     {
+        int num = card_number % 10;
+
         if (should_double)
         {
-            int num = card_number % 10;
-            second_sum += num;
-            card_number /= 10;
-            should_double = !should_double;
-        }
-        else
-        {
-            int num = card_number % 10;
             int num_doubled = num * 2;
             if (num_doubled > 9)
             {
-                while (num_doubled != 0)
-                {
-                    int num_doubled_split = num_doubled % 10;
-                    first_sum += num_doubled_split;
-                    num_doubled /= 10;
-                    should_double = !should_double;
-                }
+                doubled_sum += num_doubled % 10;
+                doubled_sum += num_doubled / 10;
             }
             else
             {
-                first_sum += num_doubled;
+                doubled_sum += num_doubled;
             }
-            card_number /= 10;
-            should_double = !should_double;
         }
+        else
+        {
+            normal_sum += num;
+        }
+
+        card_number /= 10;
+        should_double = !should_double;
     }
-    return first_sum + second_sum;
+    return normal_sum + doubled_sum;
 }
 
 // Return the starting numbers to compare to valid card starting numbers
