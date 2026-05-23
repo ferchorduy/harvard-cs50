@@ -1,0 +1,107 @@
+Compiled sorting algorithms won't work on local computer. I still used CS50's VSCode workspace to get time to sort.
+Used only real time, not user or sys time. O time is 
+
+sort1 uses: Bubble Sort
+
+How do you know?: Sorted (best case) with bubble sort means it will require much less time
+in comparison to random or reversed sorts. The difference between a sorted list of 50k items
+and 50k items in random or reversed order being about 5 seconds is the tell. No theta, or O
+and Omega time complexity being the same, here.
+
+sort2 uses: Merge Sort
+
+How do you know?: The quickest of the sorting methods on average. Of nine tests, the only one
+to go above 0.5 seconds was sorted 50k. Even then, only 0.523s. Plus, all 50k lists were all
+similar in time taken, range of 0.067s, meaning theta does exist here. And this theta being the
+smallest, or least time, makes me conclude that of the three, this one is merge.
+
+sort3 uses: Selection Sort
+
+How do you know?: By process of elimination, sort3 is selection sort. Seems to have a theta since
+small range in 50k lists times, 0.318s, so best and worst case have similar time complexity. And,
+the greater time taken in the 50k list, in general when compared to sort2, means the time complexity
+of this sort type is greater than the time complexity of sort2, which we concluded was merge sort,
+with O(n log n). So, which of the three methods has a theta time complexity which is slower than the rest?
+Selection sort.
+
+sort 1:
+  random:
+     5k: 0.070s
+    10k: 0.198s
+    50k: 5.655s
+  reversed:
+     5k: 0.105s
+    10k: 0.275s
+    50k: 5.083s
+  sorted:
+     5k: 0.028s
+    10k: 0.043s
+    50k: 0.466s
+  5k:
+      random: 0.070s
+    reversed: 0.105s
+      sorted: 0.028s
+  10k:
+      random: 0.198s
+    reversed: 0.275s
+      sorted: 0.043s
+  50k:
+      random: 5.655s
+    reversed: 5.083s
+      sorted: 0.466s // outlier makes me think bubble
+
+
+
+sort 2:
+  random:
+     5k: 0.057s
+    10k: 0.103s
+    50k: 0.486s
+  reversed:
+     5k: 0.023s
+    10k: 0.070s
+    50k: 0.456s
+  sorted:
+     5k: 0.035s
+    10k: 0.055s
+    50k: 0.523s
+  5k:
+      random: 0.057s
+    reversed: 0.023s
+      sorted: 0.035s
+  10k:
+      random: 0.103s
+    reversed: 0.070s
+      sorted: 0.055s
+  50k:
+      random: 0.486s
+    reversed: 0.456s
+      sorted: 0.523s // all similar makes me think merge
+
+
+
+sort 3:
+  random:
+     5k: 0.045s
+    10k: 0.138s
+    50k: 2.216s
+  reversed:
+     5k: 0.047s
+    10k: 0.121s
+    50k: 2.534s
+  sorted:
+     5k: 0.043s
+    10k: 0.132s
+    50k: 2.292s
+  5k:
+      random: 0.045s
+    reversed: 0.047s
+      sorted: 0.043s
+  10k:
+      random: 0.138s
+    reversed: 0.121s
+      sorted: 0.132s
+  50k:
+      random: 2.216s
+    reversed: 2.534s
+      sorted: 2.292s // similar for sorted makes me think selection
