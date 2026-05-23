@@ -133,13 +133,13 @@ int vote(int voter, int rank, char name[])
 {
     for (int i = 0; i < voter_count; i++)
     {
-        preferences[voter][rank]
-        for (int i = 0; i < candidate_count; i++)
+        for (int j = 0; j < candidate_count; j++)
         {
-            if (strcmp(candidates[i].name, name) == 0)
+            if (strcmp(candidates[j].name, name) == 0)
             {
-                
-                candidates[i].votes++;
+                // ranks 1 through (j+1), 
+                preferences[voter][rank] = j + 1;
+                candidates[j].votes = preferences[voter][rank];
                 return 1;
             }
         }
