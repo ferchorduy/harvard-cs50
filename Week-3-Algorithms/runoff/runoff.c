@@ -131,12 +131,17 @@ int main(int argc, char *argv[])
 // Record preference if vote is valid
 int vote(int voter, int rank, char name[])
 {
-    for (int i = 0; i < candidate_count; i++)
+    for (int i = 0; i < voter_count; i++)
     {
-        if (strcmp(candidates[i].name, name) == 0)
+        preferences[voter][rank]
+        for (int i = 0; i < candidate_count; i++)
         {
-            candidates[i].votes++;
-            return 1;
+            if (strcmp(candidates[i].name, name) == 0)
+            {
+                
+                candidates[i].votes++;
+                return 1;
+            }
         }
     }
     return 0;
