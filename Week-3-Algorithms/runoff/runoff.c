@@ -132,8 +132,8 @@ int vote(int voter, int rank, char name[])
     for (int i = 0; i < candidate_count; i++)
     {
         if (strcmp(candidates[i].name, name) == 0) // Check if the name inputed is in the candidates list, i.e. if "Bob" is in Alice, Bob, Charlie.
-        {                                          // When confirmed, name gets added to the preferences 2D array for the nth voter in their rank list.
-            preferences[voter][rank] = name;
+        {                                          // When confirmed, index of candidate gets added to the preferences 2D array for the nth voter in their rank list.
+            preferences[voter][rank] = i;
             return 1;
         }
     }
@@ -143,11 +143,18 @@ int vote(int voter, int rank, char name[])
 // Tabulate votes for non-eliminated candidates
 void tabulate(void)
 { 
-    for (int i = 0; i < candidate_count; i++)
+    for (int i = 0; i < voter_count; i++)
     {
-        if (strcmp(candidates[i].name, preferences[i][0]) == 0) // Checks if candidate name matches first place candidate, then increments 1 if so
+        // preferences[i][0] is the index of stored of the candidate that got first voted by the i voter
+        // increment vote to the candidate that had the same index as the first choice or first ranked
+        for (int j = 0; j < candidate_count; j++)
         {
-            candidates[i].votes++; // Just tally up first place candidates
+            if (!candidates[preferences[i][j]].is_eliminated) // if the candidate is not eliminated
+            {
+                candidates[preferences[i][j]].votes++;
+                break;
+            }
+
         }
     }
 }
@@ -173,7 +180,7 @@ int find_min(void)
 
     for (int i = 1; i < candidate_count; i++)
     {
-        if (min_vote_count < candidates[i].votes)
+        if (min_vote_count > candidates[i].votes)
         {
             min_vote_count = candidates[i].votes;
         }
