@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
     // Keep querying for votes
     for (int i = 0; i < voter_count; i++)
     {
-
+        printf("Voter #%i\n", i + 1);
         // Query for each rank
         for (int j = 0; j < candidate_count; j++)
         {
@@ -194,7 +194,7 @@ int is_tie(int min)
     // if candidates[i].votes is equal for all candidates remaining, return true
     for (int i = 0; i < candidate_count; i++)
     {
-        if (candidates[i].votes != min)
+        if (candidates[i].votes != min && !candidates[i].is_eliminated)
         {
             return 0;
         }
