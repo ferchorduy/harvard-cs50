@@ -54,7 +54,6 @@ int main(int argc, char *argv[])
         candidates[i].is_eliminated = 0;
     }
 
-    int voter_count;
     printf("Number of voters: ");
     scanf("%d", &voter_count);
 
@@ -76,13 +75,12 @@ int main(int argc, char *argv[])
             scanf("%s", name);
 
             // Record vote, unless it's invalid
-            if (!vote(i, j, name))
-            {
+            if (!vote(i, j, name)) // Remember, code still executes in the if condition statement, meaning you
+            {                      // even if vote() returns false, whatever data was manipulated in the function still occurs.
                 printf("Invalid vote.\n");
                 return 4;
             }
         }
-
         printf("\n");
     }
 
@@ -131,15 +129,27 @@ int main(int argc, char *argv[])
 // Record preference if vote is valid
 int vote(int voter, int rank, char name[])
 {
-    
+    for (int i = 0; i < candidate_count; i++)
+    {
+        if (strcmp(candidates[i].name, name) == 0) // Check if the name inputed is in the candidates list, i.e. if "Bob" is in Alice, Bob, Charlie.
+        {                                          // When confirmed, name gets added to the preferences 2D array for the nth voter in their rank list.
+            preferences[voter][rank] = name;
+            return 1;
+        }
+    }
+    return 0;
 }
 
 // Tabulate votes for non-eliminated candidates
 void tabulate(void)
-{
-    
-
-    return;
+{ 
+    for (int i = 0; i < candidate_count; i++)
+    {
+        if (strcmp(candidates[i].name, preferences[i][0]) == 0) // just tally up first place candidates
+        {
+            candidates[i].votes++;
+        }
+    }
 }
 
 // Print the winner of the election, if there is one
