@@ -116,8 +116,25 @@ int vote(int rank, char name[], int ranks[]) // return bool, 0 or 1
 // Update preferences given one voter's ranks
 void record_preferences(int ranks[])
 {
-    // TODO
-    return;
+    for (int i = 0; i < candidate_count; i++)
+    {
+
+
+        for (int j = 0; j < candidate_count; j++)
+        {
+
+            if (i == j) continue;
+
+            if (j > i)
+            {
+                preferences[ranks[i]][ranks[j]]++;
+            }
+            else
+            {
+                preferences[ranks[i]][ranks[j]]--;
+            }
+        }
+    }
 }
 
 // Record pairs of candidates where one is preferred over the other
