@@ -7,8 +7,8 @@
 // preferences[i][j] is number of voters who prefer i over j
 int preferences[MAX][MAX];
 
-// locked[i][j] means i is locked in over j
-int locked[MAX][MAX]; // bool, 0 or 1
+// is_locked[i][j] means i is locked in over j
+int is_locked[MAX][MAX]; // bool, 0 or 1
 
 // Each pair has a winner, loser
 typedef struct
@@ -18,7 +18,7 @@ typedef struct
 } pair;
 
 // Array of candidates
-char candidates[MAX];
+char candidates[MAX][50];
 pair pairs[MAX * (MAX - 1) / 2];
 
 int pair_count;
@@ -50,15 +50,15 @@ int main(int argc, char *argv[])
     }
     for (int i = 0; i < candidate_count; i++)
     {
-        candidates[i] = argv[i + 1];
+        strcpy(candidates[i], argv[i + 1]);
     }
 
-    // Clear graph of locked in pairs
+    // Clear graph of is_locked in pairs
     for (int i = 0; i < candidate_count; i++)
     {
         for (int j = 0; j < candidate_count; j++)
         {
-            locked[i][j] = 0;
+            is_locked[i][j] = 0;
         }
     }
 
@@ -102,7 +102,14 @@ int main(int argc, char *argv[])
 // Update ranks given a new vote
 int vote(int rank, char name[], int ranks[]) // return bool, 0 or 1
 {
-    // TODO
+    for (int i = 0; i < candidate_count; i++)
+    {
+        if (strcmp(candidates[i], name) == 0)
+        {
+            ranks[rank] = i;
+            return 1;
+        }
+    }
     return 0;
 }
 
