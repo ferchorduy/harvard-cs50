@@ -8,7 +8,7 @@
 int preferences[MAX][MAX];
 
 // locked[i][j] means i is locked in over j
-int locked[MAX][MAX]; // bool
+int locked[MAX][MAX]; // bool, 0 or 1
 
 // Each pair has a winner, loser
 typedef struct
@@ -25,7 +25,7 @@ int pair_count;
 int candidate_count;
 
 // Function prototypes
-int vote(int rank, char name[], int ranks[]); // return bool
+int vote(int rank, char name[], int ranks[]); // return bool, 0 or 1
 void record_preferences(int ranks[]);
 void add_pairs(void);
 void sort_pairs(void);
@@ -100,7 +100,7 @@ int main(int argc, char *argv[])
 }
 
 // Update ranks given a new vote
-int vote(int rank, char name[], int ranks[])
+int vote(int rank, char name[], int ranks[]) // return bool, 0 or 1
 {
     // TODO
     return 0;
