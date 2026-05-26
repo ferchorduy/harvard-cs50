@@ -70,6 +70,7 @@ int main(int argc, char *argv[])
     // Query for votes
     for (int i = 0; i < voter_count; i++)
     {
+        printf("Voter #%i\n", i + 1);
         // ranks[i] is voter's ith preference
         int ranks[candidate_count];
 
@@ -89,6 +90,15 @@ int main(int argc, char *argv[])
 
         record_preferences(ranks);
 
+        printf("\n");
+    }
+
+    for (int i = 0; i < candidate_count; i++)
+    {
+        for (int j = 0; j < candidate_count; j++)
+        {
+            printf("%i ", preferences[i][j]);
+        }
         printf("\n");
     }
 
@@ -120,15 +130,13 @@ void record_preferences(int ranks[])
     {
         for (int j = 0; j < candidate_count; j++)
         {
-            if (i == j) continue;
-
             if (j > i)
             {
                 preferences[ranks[i]][ranks[j]]++;
             }
             else
             {
-                preferences[ranks[i]][ranks[j]]--;
+                continue;
             }
         }
     }
@@ -141,13 +149,19 @@ void add_pairs(void)
     {
         for (int j = 0; j < candidate_count; j++)
         {
-            if (preferences[i][j] > 0)
+
+            if (preferences[i][j] > preferences[j][i])
             {
-                pairs[i].winner = preferences[i];
-                pairs[i].loser = preferences[j];
+                pairs[i].winner = i;
+                pairs[i].loser = j;
                 pair_count++;
             }
+            else continue;
         }
+    }
+    for (int i = 0; i < pair_count; i++)
+    {
+        printf("winner: %i, loser: %i\n", pairs[i].winner, pairs[i].loser);
     }
 }
 
@@ -171,7 +185,10 @@ void sort_pairs(void)
         }
         if (swap_counter == 0) break;
     }
-    
+    for (int i = 0; i < pair_count; i++)
+    {
+        printf("winner: %i, loser: %i\n", pairs[i].winner, pairs[i].loser);
+    }
 }
 
 // Lock pairs into the candidate graph in order, without creating cycles
@@ -193,19 +210,23 @@ void lock_pairs(void)
 // Print the winner of the election
 void print_winner(void)
 {
-
+    int winner;
     for (int i = 0; i < candidate_count; i++)
     {
         for (int j = 0; j < candidate_count; j++)
         {
+
+            if (is_locked[i][j] == 0) continue;
             if (pairs[i].winner == pairs[j].loser && is_locked[i][j] == 1)
             {
+                is_locked[i][j] = 0;
                 break;
             }
             else
             {
-                printf("%s\n", pairs[i].winner);
+                int winner = i;
             }
         }
     }
+    printf("%s\n", candidates[winner]);
 }
