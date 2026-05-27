@@ -30,6 +30,7 @@ void record_preferences(int ranks[]);
 void add_pairs(void);
 void sort_pairs(void);
 void lock_pairs(void);
+int creates_cycle(int winner, int loser);
 void print_winner(void);
 
 int main(int argc, char *argv[])
@@ -195,28 +196,12 @@ void sort_pairs(void)
 // Lock pairs into the candidate graph in order, without creating cycles
 void lock_pairs(void)
 {
-    for (int i = 0; i < candidate_count; i++)
+    for (int i = 0; i < pair_count; i++)
     {
-        for (int j = 0; j < candidate_count; j++)
+        if (!creates_cycle(pairs[i].winner, pairs[i].loser))
         {
-            for (int k = 0; k < pair_count; k++)
-            {
-                if (pairs[k].winner == i && pairs[k].loser == j) // loops 9 times over pairs[]
-                {
-                    // pairs[k=0] is W 0 and L 1 = 7 votes
-                    // pairs[k=1] is W 2 and L 0 = 6 votes
-                    // pairs[k=2] is W 1 and L 2 = 5 votes
-                    is_locked[i][j] = 1;
-                }
-            }
+            is_locked[pairs[i].winner][pairs[i].loser] = 1;
         }
-
-    }
-
-    // removes cycle
-    if (pairs[pair_count-1].winner == pairs[0].loser)
-    {
-        is_locked[pairs[pair_count-1].winner][pairs[pair_count-1].loser] = 0;
     }
 
     for (int i = 0; i < candidate_count; i++)
@@ -229,29 +214,44 @@ void lock_pairs(void)
     }
 }
 
+// Returns bool if a pair locking creates a cycle
+int creates_cycle(int winner, int loser)
+{
+    if (loser == winner) return 1;
+    for (int i = 0; i < candidate_count; i++)
+    {
+        if (is_locked[loser][i])
+        {
+            if (creates_cycle(winner, i)) return 1;
+        }
+    }
+    return 0;
+}
+
 // Print the winner of the election
 void print_winner(void)
 {
+    int toggle = 0;
     int winner;
+    // whichever number does not appear in losers of pairs, thats the winner
     for (int i = 0; i < candidate_count; i++)
     {
-        for (int j = 0; j < candidate_count; j++)
+        for (int j = 0; j < pair_count; j++)
         {
-            for (int k = 0; k < pair_count; k++)
+            if (i == pairs[j].loser)
             {
-                if (is_locked[i][j] == 0) continue;
-
-                if ((i == pairs[k].loser || j == pairs[k].loser) && is_locked[i][j] == 1)
-                {
-                    is_locked[i][j] = 0;
-                }
-                else
-                {
-                    int winner = i;
-                    break;
-                }
+                toggle = 1;
+                break;
             }
         }
+
+        if (toggle == 0)
+        {
+            winner = i;
+            break;
+        }
+
+        toggle = 0;
     }
 
     for (int i = 0; i < candidate_count; i++)
