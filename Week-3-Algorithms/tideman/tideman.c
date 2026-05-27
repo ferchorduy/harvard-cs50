@@ -238,7 +238,7 @@ void print_winner(void)
     {
         for (int j = 0; j < pair_count; j++)
         {
-            if (i == pairs[j].loser)
+            if (is_locked[pairs[j].winner][pairs[j].loser] == 1 && i == pairs[j].loser)
             {
                 toggle = 1;
                 break;
@@ -248,6 +248,8 @@ void print_winner(void)
         if (toggle == 0)
         {
             winner = i;
+            printf("%i\n", winner);
+            printf("%s\n", candidates[winner]);
             break;
         }
 
