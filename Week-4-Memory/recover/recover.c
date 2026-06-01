@@ -21,45 +21,24 @@ int main(int argc, char *argv[])
     }
 
     uint8_t buffer[BLOCK_SIZE];
-    fread(buffer, SIGNATURE_SIZE, 1, input);
-
-    if (buffer[0] != 0xFF || buffer[1] != 0xD8 || buffer[2] != 0xFF || buffer[3] >> 4 != 0xE)
-    {
-        fclose(input);
-        printf("Unsupported file format.\n");
-        return 1;
-    }
-
-    fseek(input, 0, SEEK_SET);
-
+    int jpeg_count = 0;
+    FILE *output = NULL;
     while (fread(buffer, BLOCK_SIZE, 1, input))
     {
-
+        if (buffer[0] == 0xFF && buffer[1] == 0xD8 && buffer[2] == 0xFF && buffer[3] >> 4 == 0xE)
+        {
+            if (output != NULL) fclose(output);
+            char filename[8];
+            sprintf(filename, "%03i.jpg", jpeg_count);
+            output = fopen(filename, "wb");
+            jpeg_count++;
+        }
+        if (output != NULL)
+        {
+            fwrite(buffer, BLOCK_SIZE, 1, output);
+        }
     }
-
-    // uint8_t buffer[BLOCK_SIZE];
-    // uint8_t byte;
-    // while (fread(buffer, BLOCK_SIZE, 1, input) == 1)
-    // {
-
-    //     fread(buffer, sizeof(uint8_t), SIGNATURE_SIZE, input);
-
-    //     if (buffer[0] != 0xFF || buffer[1] != 0xD8 || buffer[2] != 0xFF || buffer[3] >> 4 != 0xE)
-    //     {
-    //         fclose(input);
-    //         printf("Unsupported file format.\n");
-    //         return 1;
-    //     }
-
-    //     char filename[8];
-    //     FILE *output = fopen(filename, "wb");
-    //     fwrite(buffer, sizeof(uint8_t), SIGNATURE_SIZE, output);
-    //     while (fread(&byte, sizeof(uint8_t), BLOCK_SIZE, input))
-    //     {
-    //         fwrite(&byte, sizeof(uint8_t), BLOCK_SIZE, output);
-    //     }
-    //     fclose(output);
-    //   }
-
+    if (output != NULL) fclose(output);
+    fclose(input);
     return 0;
 }
