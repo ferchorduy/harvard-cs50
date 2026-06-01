@@ -83,7 +83,7 @@ int sepia_check(int sepia_value)
     return sepia_value;
 }
 
-
+// Gets the value that the current RGBTRIPLE should be based on the average of the 3x3 grid it's in
 RGBTRIPLE get_average(int i, int j, int height, int width, RGBTRIPLE copy[height][width])
 {
     int sum_red = 0, sum_green = 0, sum_blue = 0;
