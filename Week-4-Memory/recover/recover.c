@@ -9,12 +9,12 @@ int main(int argc, char *argv[])
 {
     if (argc != 2)
     {
-        printf("Usage: ./recover card.raw\n");
+        printf("Usage: ./recover FILE\n");
         return 1;
     }
 
-    FILE *input = fopen(argv[1], "rb");
-    if (input == NULL)
+    FILE *card = fopen(argv[1], "rb");
+    if (card == NULL)
     {
         printf("Could not open file.\n");
         return 1;
@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     uint8_t buffer[BLOCK_SIZE];
     int jpeg_count = 0;
     FILE *output = NULL;
-    while (fread(buffer, BLOCK_SIZE, 1, input))
+    while (fread(buffer, BLOCK_SIZE, 1, card))
     {
         if (buffer[0] == 0xFF && buffer[1] == 0xD8 && buffer[2] == 0xFF && buffer[3] >> 4 == 0xE)
         {
@@ -39,6 +39,6 @@ int main(int argc, char *argv[])
         }
     }
     if (output != NULL) fclose(output);
-    fclose(input);
+    fclose(card);
     return 0;
 }
