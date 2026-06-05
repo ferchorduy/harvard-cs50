@@ -7,7 +7,6 @@
 #include <string.h>
 
 #include "dictionary.h"
-#include "bucket_table.h"
 
 #define BUCKETS 17576
 
@@ -43,10 +42,10 @@ bool check(const char *word)
 unsigned int hash(const char *word)
 {
     // TODO: Improve this hash function
-    if (strlen(word) < 3) return 0;  // handle short words
+    if (!isalpha(word[0])) return 0;
     int i = tolower(word[0]) - 'a';
-    int j = tolower(word[1]) - 'a';
-    int k = tolower(word[2]) - 'a';
+    int j = (strlen(word) > 1 && isalpha(word[1])) ? tolower(word[1]) - 'a' : 0;
+    int k = (strlen(word) > 2 && isalpha(word[2])) ? tolower(word[2]) - 'a' : 0;
     return i * 676 + j * 26 + k;
 }
 
@@ -60,9 +59,10 @@ bool load(const char *dictionary)
         printf("Error opening file.\n");
         return false;
     }
-    char word_buffer[LENGTH];
 
-    while (fgets(word_buffer, LENGTH, dict) != NULL)
+    char word_buffer[LENGTH + 1];
+
+    while (fgets(word_buffer, LENGTH + 1, dict) != NULL)
     {
         node *word = malloc(sizeof(node));
         if (word == NULL)
@@ -78,7 +78,6 @@ bool load(const char *dictionary)
     }
 
     fclose(dict);
-
     return true;
 }
 
