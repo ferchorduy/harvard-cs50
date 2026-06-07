@@ -1,11 +1,13 @@
 import re
 
+
 def main():
     # Get card number.
     card_number = input("Number: ")
 
     # Validate card number.
     validate_card_number(card_number)
+
 
 # Checksum.
 def luhn(card_number):
@@ -30,6 +32,7 @@ def luhn(card_number):
 
     return (normal_sum + doubled_sum) % 10 == 0
 
+
 def validate_card_number(card_number):
 
     # Get card number length.
@@ -41,4 +44,6 @@ def validate_card_number(card_number):
     elif card_number_length == 16 and re.match("5[12345]", card_number): print("MASTERCARD")
     else: print("INVALID")
 
-main()
+
+if __name__ == "__main__":
+    main()

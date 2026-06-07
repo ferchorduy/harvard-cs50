@@ -6,6 +6,7 @@ def main():
     elif 1 <= grade_level <= 16: print(f"Grade {grade_level}")
     else: print("Grade 16+")
 
+
 def coleman_liau(text):
     
     letter_counter = 0
@@ -24,4 +25,5 @@ def coleman_liau(text):
 
     return round(index)
 
-main()
+if __name__ == "__main__":
+    main()
