@@ -8,33 +8,20 @@ def main():
         print("Usage: dna.py [CSV file] [TXT file]")
         sys.exit(1)
 
-    people = []
     with open(sys.argv[1]) as file:
         reader = csv.DictReader(file)
-        for person in reader:
-            people.append(person)
+        people = list(reader)
+        subsequences = reader.fieldnames[1:]
     
-    dna = ""
     with open(sys.argv[2]) as file:
-        reader = csv.reader(file)
-        for line in reader:
-            dna = line[0]
+        dna = file.read().strip()
 
-    subsequences = []
-    for key in people[0]:
-        if key == 'name': continue
-        else: subsequences.append(key)
-
-    match = 0
-    repetitions = []
+    repetitions = {}
     for subsequence in subsequences:
-        match = longest_match(dna, subsequence)
-        repetitions.append(str(match))
+        repetitions[subsequence] = str(longest_match(dna, subsequence))
 
     for person in people:
-        for subsequence in subsequences:
-            if person[subsequence] != repetitions[subsequences.index(subsequence)]: break
-        else:
+        if all(person[subsequence] == repetitions[subsequence] for subsequence in subsequences):
             print(person['name'])
             sys.exit()
     print("No match")
