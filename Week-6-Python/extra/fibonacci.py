@@ -1,3 +1,3 @@
-def fib(num)
+def fib(num):
     if num == 0:
         return 0
