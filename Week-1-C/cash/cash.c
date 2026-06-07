@@ -1,5 +1,10 @@
 #include <stdio.h>
 
+#define QUARTER 25
+#define DIME 10
+#define NICKEL 5
+#define PENNY 1
+
 int get_change_owed(void);
 void get_minimum_coins(int change);
 
@@ -37,25 +42,25 @@ void get_minimum_coins(int change)
     int coin_counter = 0;
 
     // While there is still change, subtract
-    while (change >= 25)
+    while (change >= QUARTER)
     {
         coin_counter++;
-        change -= 25;
+        change -= QUARTER;
     }
-    while (change >= 10)
+    while (change >= DIME)
     {
         coin_counter++;
-        change -= 10;
+        change -= DIME;
     }
-    while (change >= 5)
+    while (change >= NICKEL)
     {
         coin_counter++;
-        change -= 5;
+        change -= NICKEL;
     }
-    while (change >= 1)
+    while (change >= PENNY)
     {
         coin_counter++;
-        change -= 1;
+        change -= PENNY;
     }
     printf("%d\n", coin_counter);
 }
