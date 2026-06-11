@@ -2,33 +2,38 @@
 #include <string.h>
 #include <stdlib.h>
 
+char *concat(char *string1, char *string2);
+
 int main(void)
 {
-    char *s1[50];
-    char *s2[50];
-    printf("Enter string 1: \n");
-    scanf("%s", s1);
-    printf("Enter string 2: \n");
-    scanf("%s", s2);
-    char *s3 = concat(s1, s2);
-    printf("%s", s3);
+    char string1[50];
+    char string2[50];
+    printf("Enter string 1: ");
+    fgets(string1, 50, stdin);
+    string1[strcspn(string1, "\n")] = '\0';
+    printf("Enter string 2: ");
+    fgets(string2, 50, stdin);
+    string2[strcspn(string2, "\n")] = '\0';
+    char *string3 = concat(string1, string2);
+    printf("%s\n", string3);
+    free(string3);
 }
 
 char *concat(char *string1, char *string2)
 {
-    char *new_string = malloc(strlen(string1) + strlen(string2) + 1);
+    int len1 = strlen(string1);
+    int len2 = strlen(string2);
+    char *string3 = malloc(len1 + len2 + 1);
 
-    for (int i = 0, n = strlen(string1); i < n; i++)
+    for (int i = 0; i < len1; i++)
     {
-        new_string[i] = string1[i];
+        string3[i] = string1[i];
     }
-
-    for (int i = strlen(string1), n = strlen(string2) + strlen(string1); i < n; i++)
+    for (int i = 0; i < len2; i++)
     {
-        new_string[i] = string2[i - n];
+        string3[len1 + i] = string2[i];
     }
+    string3[len1 + len2] = '\0';
 
-
-
-    return new_string;
+    return string3;
 }
