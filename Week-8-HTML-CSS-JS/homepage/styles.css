@@ -1,0 +1,45 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: antiquewhite;
+    text-align: center;
+    margin-top: auto;
+    color: rgba(191, 155, 111, 0.892);
+}
+
+h1 {
+    font-family: 'Helvetica', sans-serif;
+    color: inherit;
+}
+
+a, p {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover {
+    color: rgba(152, 122, 84, 0.892);
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+svg {
+    max-width: 20rem;
+    max-height: 20rem;
+}
+
+svg path {
+    fill: rgba(191, 155, 111, 0.892);  
+}
+
+footer {
+    margin-top: auto;
+}

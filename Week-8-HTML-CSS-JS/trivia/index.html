@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="styles.css" rel="stylesheet">
+        <title>Trivia!</title>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                document.querySelector('body').addEventListener('click', event => {
+                    if (event.target.tagName === 'BUTTON') {
+                        const section = event.target.closest('.section');
+
+                        section.querySelectorAll('button').forEach(button => {
+                            button.style.backgroundColor = '';
+                            button.style.color = '';
+                        });
+
+                        let response = section.querySelector('.response');
+                        if (!response) {
+                            response = document.createElement('p');
+                            response.className = 'response';
+                            section.appendChild(response);
+                        }
+
+                        if (event.target.textContent === 'Satoshi Nakamoto') {
+                            event.target.style.backgroundColor = 'green';
+                            event.target.style.color = 'white';
+                            response.textContent = 'Correct!';
+                        }
+                        else if (event.target.className === 'submit_button') {
+                            const input = section.querySelector('#answer');
+                            if (input.value === '25') {
+                                response.textContent = 'Correct!';
+                                input.style.border = '2px solid green';
+                            }
+                            else if (input.value === '') {
+                                response.textContent = 'Enter an answer!';
+                                input.classList.add('empty-shake');
+                                setTimeout(() => {
+                                    input.classList.remove('empty-shake');
+                                }, 300);
+                            }
+                            else {
+                                response.textContent = 'Incorrect';
+                                input.style.border = '2px solid red';
+                            }
+                        }
+                        else {
+                            event.target.style.backgroundColor = 'red';
+                            event.target.style.color = 'white';
+                            response.textContent = 'Incorrect';
+                        }
+                    }
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Trivia!</h1>
+        </div>
+
+        <div class="container">
+            <div class="section">
+                <h2>Part 1: Multiple Choice </h2>
+                <hr>
+                <h3>
+                    Who invented Bitcoin in 2009?
+                </h3>
+                <button>Yo Mama</button>
+                <button>My Mom!</button>
+                <button>Satoshi Nakamoto</button>
+                <button>Jesus Christ</button>
+                <button>Adolf Hitler</button>
+            </div>
+
+            <div class="section">
+                <h2>Part 2: Free Response</h2>
+                <hr>
+                <h3>What's funnier than 24?</h3>
+                <input type="text" name="" id="answer">
+                <button class="submit_button">Check Answer</button>
+            </div>
+        </div>
+    </body>
+</html>
