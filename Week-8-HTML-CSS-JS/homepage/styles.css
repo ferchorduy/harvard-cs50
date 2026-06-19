@@ -45,3 +45,20 @@ svg path {
     justify-content: center;
     align-items: center;
 }
+
+.card {
+  --bs-card-bg: antiquewhite;
+}
+
+.accordion {
+  --bs-accordion-bg: antiquewhite;
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: rgb(222, 205, 183);
+}
