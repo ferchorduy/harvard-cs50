@@ -5,10 +5,13 @@
 }
 
 body {
+    height: 100vh;
     background-color: antiquewhite;
     text-align: center;
-    margin-top: auto;
     color: rgba(191, 155, 111, 0.892);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 h1 {
@@ -31,15 +34,14 @@ ul {
     padding: 0;
 }
 
-svg {
-    max-width: 20rem;
-    max-height: 20rem;
-}
-
 svg path {
     fill: rgba(191, 155, 111, 0.892);  
 }
 
-footer {
-    margin-top: auto;
+.container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
