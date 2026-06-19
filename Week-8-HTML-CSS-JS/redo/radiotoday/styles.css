@@ -1,0 +1,41 @@
+.georgia-font {
+    font-family: 'Georgia', serif;
+}
+
+.my-col-width {
+  width: 14rem;
+}
+
+h5, h5 a {
+  margin: 0;
+  font-weight: bold;
+  font-size: large;
+}
+
+.section-spacer {
+  margin-bottom: 1rem;
+}
+
+.carousel-item img {
+  height: 400px;
+  object-fit: contain;
+}
+
+.carousel-item {
+  background-color: rgb(236, 236, 236);
+}
+
+.carousel-indicators [data-bs-target] {
+    background-color: black;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    filter: invert(1);
+}
+
+h2 {
+  text-align: center;
+  font-weight: bold;
+  margin: 2rem 0rem;
+}
