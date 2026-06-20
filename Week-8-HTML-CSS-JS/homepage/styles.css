@@ -11,6 +11,8 @@ body {
     color: rgb(167, 152, 132);
     display: flex;
     flex-direction: column;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 h1 {
@@ -42,7 +44,11 @@ svg path {
     fill: rgb(167, 152, 132); 
 }
 
-.container {
+svg:hover path {
+    fill: rgba(152, 122, 84, 0.892);
+}
+
+.container-home {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -93,11 +99,29 @@ svg path {
 }
 
 .card-image-top {
-    height: 200px;
+    height: 50vh;
     object-fit: cover;
 }
 
 .tier-explanations {
   margin-bottom: auto;
   padding: 0rem 2rem 2rem 2rem;
+}
+
+.pictures-format {
+  height: 50vh;
+  object-fit: cover;
+}
+
+.footer-pictures {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  color: white;
+}
+
+.footer-pictures a:hover {
+    color: rgb(199, 199, 199);
 }
