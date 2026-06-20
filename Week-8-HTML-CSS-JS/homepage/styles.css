@@ -44,7 +44,8 @@ svg path {
     fill: rgb(167, 152, 132); 
 }
 
-svg:hover path {
+svg path:hover,
+svg g:hover path {
     fill: rgba(152, 122, 84, 0.892);
 }
 
@@ -72,7 +73,7 @@ svg:hover path {
 
 .accordion-button {
     justify-content: center;
-    --bs-accordion-btn-color: rgb(167, 152, 132);
+    color: rgb(167, 152, 132);
     border: none;
 }
 
@@ -81,6 +82,7 @@ svg:hover path {
     background-color: rgb(222, 205, 183);
 }
 
+/* To remove chevron from accordion-item */
 .accordion-button::after {
     display: none;
 }
@@ -89,7 +91,8 @@ svg:hover path {
     box-shadow: none;
 }
 
-.accordion-button:not(.collapsed) {
+.accordion-button:not(.collapsed),
+.nav-link {
     background-color: antiquewhite;
     color: rgb(167, 152, 132);
 }
@@ -98,7 +101,8 @@ svg:hover path {
     padding:0;
 }
 
-.card-image-top {
+.card-image-top,
+.pictures-format {
     height: 50vh;
     object-fit: cover;
 }
@@ -106,11 +110,6 @@ svg:hover path {
 .tier-explanations {
   margin-bottom: auto;
   padding: 0rem 2rem 2rem 2rem;
-}
-
-.pictures-format {
-  height: 50vh;
-  object-fit: cover;
 }
 
 .footer-pictures {
@@ -124,4 +123,39 @@ svg:hover path {
 
 .footer-pictures a:hover {
     color: rgb(199, 199, 199);
+}
+
+.tab-content {
+  margin-bottom: auto;
+}
+
+.country-tile {
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+h3 {
+  font-family: 'Garamond', serif;
+}
+
+.nav-tabs .nav-link.active {
+  background-color: rgb(167, 152, 132);
+  color: antiquewhite;
+  border: none;
+}
+
+.nav-link,
+.nav,
+.nav-tabs .nav-link {
+  border: none;
+  margin: 0;
+}
+
+.nav-link:hover {
+  border: none;
+  color: rgb(123, 113, 100);
 }
