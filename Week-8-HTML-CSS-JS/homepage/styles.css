@@ -8,15 +8,18 @@ body {
     height: 100vh;
     background-color: antiquewhite;
     text-align: center;
-    color: rgba(191, 155, 111, 0.892);
+    color: rgb(167, 152, 132);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 }
 
 h1 {
     font-family: 'Helvetica', sans-serif;
     color: inherit;
+}
+
+p {
+  margin: 0;
 }
 
 a, p {
@@ -26,6 +29,7 @@ a, p {
 
 a:hover {
     color: rgba(152, 122, 84, 0.892);
+    text-decoration: underline;
 }
 
 ul {
@@ -35,7 +39,7 @@ ul {
 }
 
 svg path {
-    fill: rgba(191, 155, 111, 0.892);  
+    fill: rgb(167, 152, 132); 
 }
 
 .container {
@@ -47,18 +51,53 @@ svg path {
 }
 
 .card {
-  --bs-card-bg: antiquewhite;
+    --bs-card-bg: antiquewhite;
+    --bs-card-color: rgb(167, 152, 132);
+    border: none;
 }
 
 .accordion {
-  --bs-accordion-bg: antiquewhite;
+    --bs-accordion-bg: antiquewhite;
+}
+
+.accordion-item {
+    border: none;
+}
+
+.accordion-button {
+    justify-content: center;
+    --bs-accordion-btn-color: rgb(167, 152, 132);
+    border: none;
+}
+
+.accordion-button:hover,
+.accordion-button:not(.collapsed):hover {
+    background-color: rgb(222, 205, 183);
+}
+
+.accordion-button::after {
+    display: none;
 }
 
 .accordion-button:focus {
     box-shadow: none;
-
 }
 
 .accordion-button:not(.collapsed) {
-  background-color: rgb(222, 205, 183);
+    background-color: antiquewhite;
+    color: rgb(167, 152, 132);
+}
+
+.accordion-body {
+    padding:0;
+}
+
+.card-image-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.tier-explanations {
+  margin-bottom: auto;
+  padding: 0rem 2rem 2rem 2rem;
 }
