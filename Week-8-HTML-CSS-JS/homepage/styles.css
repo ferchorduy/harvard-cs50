@@ -142,6 +142,12 @@ h3 {
   font-family: 'Garamond', serif;
 }
 
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
 .nav-tabs .nav-link.active {
   background-color: rgb(167, 152, 132);
   color: antiquewhite;
@@ -158,4 +164,13 @@ h3 {
 .nav-link:hover {
   border: none;
   color: rgb(123, 113, 100);
+}
+
+.fixed-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: antiquewhite;
 }

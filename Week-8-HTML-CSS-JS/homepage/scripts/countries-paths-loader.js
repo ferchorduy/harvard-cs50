@@ -1,4 +1,4 @@
-fetch('data/fetched-countries.json')
+fetch('data/fetched-countries-paths.json')
   .then(response => response.json())
   .then(data => {
     document.querySelectorAll('g').forEach(element => {
