@@ -1,7 +1,7 @@
-fetch('data/countries-paths.json')
+fetch('data/fetched-countries.json')
   .then(response => response.json())
   .then(data => {
     document.querySelectorAll('g').forEach(element => {
-      element.innerHTML = data[element.id].join('');
+      element.innerHTML = data[element.id].join(' ');
     });
   });
