@@ -1,5 +1,5 @@
 import os
-
+import sqlite3
 
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
 
@@ -9,9 +9,8 @@ app = Flask(__name__)
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
-# Configure CS50 Library to use SQLite database
-# db = SQL("sqlite:///birthdays.db")
-
+birthdays = sqlite3.connect('birthdays.db')
+birthdays_db = birthdays.cursor()
 
 @app.after_request
 def after_request(response):
