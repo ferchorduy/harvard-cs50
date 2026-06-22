@@ -46,7 +46,7 @@ def buy():
     if request.method == "POST":
         symbol = request.form.get("symbol")
         company_data = lookup(symbol)
-        shares = request.form.get("shares")
+        shares = int(request.form.get("shares"))
 
         if not shares or int(shares) < 1:
             return apology("Enter valid share amount")   
@@ -56,20 +56,25 @@ def buy():
             return apology("Not a valid ticker")
         
         user_id = session["user_id"]
-        user_cash_balance = db.execute("SELECT cash FROM users WHERE id = ?", user_id)
+        ticker = company_data["symbol"]
+        price = company_data["price"]
+        investment = price * shares
 
-        db.execute("""
-            CREATE TABLE IF NOT EXISTS transactions (
-                user_id INTEGER NOT NULL,
-                stock_price REAL NOT NULL,
-                shares INTEGER NOT NULL,
-                FOREIGN KEY(id) REFERENCES users(id)
-            );
-        """)
+        user_cash_balance = db.execute("SELECT cash FROM users WHERE id = ?", user_id)[0]["cash"]
+        new_cash_balance = user_cash_balance - investment
 
-        # CONTINUE HERE MAKING SQL NEW TABLE(S)
+        # CREATE TABLE transactions (user_id, ticker, price, shares, timestamp) in .schema since .db is inside .gitignore
+        # CREATE INDEX user_id ON transactions (user_id); to have faster access to transaction history of a user
+
+        if user_cash_balance >= investment:
+            db.execute("BEGIN TRANSACTION")
+            db.execute("INSERT INTO transactions (user_id, ticker, price, shares) VALUES(?, ?, ?, ?)", user_id, ticker, price, shares)
+            db.execute("UPDATE users SET cash = ? WHERE id = ?", new_cash_balance, user_id)
+            db.execute("COMMIT")
+            return redirect("/")
         
-        return redirect("/")
+        else:
+            return apology("Not enough cash")
 
     return render_template("buy.html")
 
