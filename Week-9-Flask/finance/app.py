@@ -36,7 +36,7 @@ def after_request(response):
 def index():
     """Show portfolio of stocks"""
 
-    return apology("TODO portfolio")
+    return apology("Signed in")
 
 
 @app.route("/buy", methods=["GET", "POST"])
@@ -57,6 +57,15 @@ def buy():
         
         user_id = session["user_id"]
         user_cash_balance = db.execute("SELECT cash FROM users WHERE id = ?", user_id)
+
+        db.execute("""
+            CREATE TABLE IF NOT EXISTS transactions (
+                user_id INTEGER NOT NULL,
+                stock_price REAL NOT NULL,
+                shares INTEGER NOT NULL,
+                FOREIGN KEY(id) REFERENCES users(id)
+            );
+        """)
 
         # CONTINUE HERE MAKING SQL NEW TABLE(S)
         
