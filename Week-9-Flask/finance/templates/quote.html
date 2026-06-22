@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Quote
+{% endblock %}
+
+{% block main %}
+    <form action="/quote" method="post" class="d-flex justify-content-center gap-2">
+        <input required autocomplete="off" autofocus class="form-control w-auto" name="symbol" placeholder="Enter stock symbol" type="text">
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+{% endblock %}

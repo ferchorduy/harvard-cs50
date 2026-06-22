@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Buy
+{% endblock %}
+
+{% block main %}
+    <form action="/buy" method="post" class="d-flex justify-content-center gap-2">
+        <input required autocomplete="off" autofocus class="form-control w-auto" name="symbol" placeholder="Enter stock symbol" type="text">
+        <input required autocomplete="off" autofocus class="form-control w-auto" name="shares" placeholder="Shares to buy" type="number">
+        <button class="btn btn-primary" type="submit">Buy</button>
+    </form>
+{% endblock %}

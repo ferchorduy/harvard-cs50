@@ -35,14 +35,34 @@ def after_request(response):
 @login_required
 def index():
     """Show portfolio of stocks"""
-    return apology("TODO")
+
+    return apology("TODO portfolio")
 
 
 @app.route("/buy", methods=["GET", "POST"])
 @login_required
 def buy():
     """Buy shares of stock"""
-    return apology("TODO")
+    if request.method == "POST":
+        symbol = request.form.get("symbol")
+        company_data = lookup(symbol)
+        shares = request.form.get("shares")
+
+        if not shares or int(shares) < 1:
+            return apology("Enter valid share amount")   
+        if not symbol:
+            return apology("Enter symbol")
+        if not company_data:
+            return apology("Not a valid ticker")
+        
+        user_id = session["user_id"]
+        user_cash_balance = db.execute("SELECT cash FROM users WHERE id = ?", user_id)
+
+        # CONTINUE HERE MAKING SQL NEW TABLE(S)
+        
+        return redirect("/")
+
+    return render_template("buy.html")
 
 
 @app.route("/history")
@@ -106,13 +126,50 @@ def logout():
 @login_required
 def quote():
     """Get stock quote."""
-    return apology("TODO")
+
+    if request.method == "POST":
+        symbol = request.form.get("symbol")
+        company_data = lookup(symbol)
+        
+        if not symbol:
+            return apology("Enter symbol")
+        if not company_data:
+            return apology("Not a valid ticker")
+        
+        return render_template("quoted.html", name=company_data["name"], price=usd(company_data["price"]), symbol=company_data["symbol"])
+
+    return render_template("quote.html")
 
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Register user"""
-    return apology("TODO")
+
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        confirmation = request.form.get("confirmation")
+
+        if not username:
+            return apology("PLEASE INPUT A USERNAME!")
+        
+        if not password:
+            return apology("PLEASE INPUT A PASSWORD!")
+        
+        if not confirmation:
+            return apology("PLEASE CONFIRM PASSWORD!")
+        
+        if password != confirmation:
+            return apology("PASSWORDS DO NOT MATCH!")
+        
+        try:
+            db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, generate_password_hash(password))
+            return redirect("/login")
+        except ValueError:
+            return apology("USERNAME EXISTS!")
+
+    else:
+        return render_template("register.html")
 
 
 @app.route("/sell", methods=["GET", "POST"])
