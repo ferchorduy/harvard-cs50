@@ -5,36 +5,34 @@
 {% endblock %}
 
 {% block main %}
-    <table class="table">
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th>Ticker</th>
-                <th>Shares</th>
-                <th>Price</th>
-                <th>TOTAL</th>
+                <th class="text-start">Ticker</th>
+                <th class="text-end">Shares</th>
+                <th class="text-end">Price</th>
+                <th class="text-end">TOTAL</th>
             </tr>
         </thead>
         <tbody>
             {% for symbol in portfolio %}
                 <tr>
-                    <td>{{ symbol["ticker"] }}</td>
-                    <td>{{ symbol["shares"] }}</td>
-                    <td>{{ symbol["price"] | usd }}</td>
-                    <td>{{ symbol["investment"] | usd }}</td>
+                    <td class="text-start">{{ symbol["ticker"] }}</td>
+                    <td class="text-end">{{ symbol["shares"] }}</td>
+                    <td class="text-end">{{ symbol["price"] | usd }}</td>
+                    <td class="text-end">{{ symbol["investment"] | usd }}</td>
                 </tr>
             {% endfor %}
-            <tr>
-                <td></td>
-                <td></td>
-                <th>Cash</th>
-                <td>{{ user_cash_balance | usd }}</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <th>TOTAL</th>
-                <td>{{ net_worth | usd }}</td>
-            </tr>
         </tbody>
+        <tfoot>
+            <tr>
+                <th class="border-0 fw-bold text-end" colspan="3">Cash</th>
+                <td class="border-0 text-end">{{ user_cash_balance | usd }}</td>
+            </tr>
+            <tr>
+                <th class="border-0 fw-bold text-end" colspan="3">TOTAL</th>
+                <td class="border-0 text-end">{{ net_worth | usd }}</td>
+            </tr>
+        </tfoot>
     </table>
 {% endblock %}

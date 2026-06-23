@@ -1,0 +1,3 @@
+- [ ] Add withdrawals
+- [ ] Add buy/sell from index.html with clickign on ticker and pop-up/modal showing
+- [ ] Add change password

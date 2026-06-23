@@ -5,22 +5,47 @@
 {% endblock %}
 
 {% block main %}
+    <h3 class="history-title"><strong>Stock Transactions</strong></h3>
     <table class="table">
         <thead>
             <tr>
-                <th>Ticker</th>
-                <th>Shares</th>
-                <th>Price</th>
-                <th>Transacted</th>
+                <th class="text-start">Ticker</th>
+                <th class="text-end">Shares</th>
+                <th class="text-end">Price</th>
+                <th class="text-end">Transacted</th>
             </tr>
         </thead>
         <tbody>
             {% for stock in transactions %}
                 <tr>
-                    <td>{{ stock["ticker"] }}</td>
-                    <td>{{ stock["shares"] }}</td>
-                    <td>{{ stock["price"] | usd }}</td>
-                    <td>{{ stock["timestamp"] }}</td>
+                    <td class="text-start">{{ stock["ticker"] }}</td>
+                    <td class="text-end">{{ stock["shares"] }}</td>
+                    <td class="text-end">{{ stock["price"] | usd }}</td>
+                    <td class="text-end">{{ stock["timestamp"] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3 class="history-title"><strong>Cash Movements</strong></h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="text-start">Movement Type</th>
+                <th class="text-end">Amount</th>
+                <th class="text-end">Transacted</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="text-start">initial balance</td>
+                <td class="text-end">$10,000.00</td>
+                <td class="text-end">-</td>
+            </tr>
+            {% for movement in cash_movements %}
+                <tr>
+                    <td class="text-start">{{ movement["movement_type"] }}</td>
+                    <td class="text-end">{{ movement["amount"] | usd }}</td>
+                    <td class="text-end">{{ movement["timestamp"] }}</td>
                 </tr>
             {% endfor %}
         </tbody>

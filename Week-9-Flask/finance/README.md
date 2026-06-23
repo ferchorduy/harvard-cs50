@@ -1,0 +1,1 @@
+To set up database: sqlite3 finance.db < schema.sql

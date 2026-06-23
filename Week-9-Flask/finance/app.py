@@ -5,7 +5,7 @@ from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from helpers import apology, login_required, lookup, usd
+from helpers import apology, login_required, lookup, usd, validate_card_number
 
 # Configure application
 app = Flask(__name__)
@@ -58,7 +58,10 @@ def buy():
     """Buy shares of stock"""
     if request.method == "POST":
         symbol = request.form.get("symbol")
-        shares = int(request.form.get("shares"))
+        try:
+            shares = int(request.form.get("shares"))
+        except ValueError:
+            return apology("Enter valid share amount")
 
         if not shares or int(shares) < 1:
             return apology("Enter valid share amount")   
@@ -76,9 +79,6 @@ def buy():
 
         user_cash_balance = db.execute("SELECT cash FROM users WHERE id = ?", user_id)[0]["cash"]
         new_cash_balance = user_cash_balance - investment
-
-        # CREATE TABLE transactions (user_id, ticker, price, shares, timestamp) in .schema since .db is inside .gitignore
-        # CREATE INDEX user_id ON transactions (user_id); to have faster access to transaction history of a user
 
         if user_cash_balance >= investment:
             db.execute("BEGIN TRANSACTION")
@@ -99,7 +99,8 @@ def history():
     """Show history of transactions"""
     user_id = session["user_id"]
     transactions = db.execute("SELECT * FROM transactions WHERE user_id = ? ORDER BY timestamp DESC", user_id)
-    return render_template("history.html", transactions=transactions)
+    cash_movements = db.execute("SELECT * FROM cash_movements WHERE user_id = ? ORDER BY timestamp DESC", user_id)
+    return render_template("history.html", transactions=transactions, cash_movements=cash_movements)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -211,7 +212,10 @@ def sell():
 
     if request.method == "POST":
         symbol = request.form.get("symbol")
-        shares = int(request.form.get("shares"))
+        try:
+            shares = int(request.form.get("shares"))
+        except ValueError:
+            return apology("Enter valid share amount")
 
         if not symbol:
             return apology("Enter symbol")
@@ -242,3 +246,34 @@ def sell():
         return redirect("/")
     
     return render_template("sell.html", portfolio=portfolio)
+
+@app.route("/deposit", methods=["GET", "POST"])
+@login_required
+def deposit():
+    """Add funds to account"""
+    if request.method == "POST":
+        card_number = request.form.get("card_number")
+        try:
+            deposit = round(float(request.form.get("deposit")), 2)
+        except ValueError:
+            return apology("Enter deposit in valid format")
+        
+        if not card_number.isdigit() or int(card_number) < 0:
+            return apology("Enter valid card number")
+        
+        if not deposit or deposit < 0:
+            return apology("Enter valid deposit amount")
+
+        if validate_card_number(str(card_number)):
+            user_id = session["user_id"]
+
+            db.execute("BEGIN TRANSACTION")
+            db.execute("INSERT INTO cash_movements (user_id, movement_type, amount) VALUES(?, ?, ?)", user_id, 'deposit', deposit)
+            db.execute("UPDATE users SET cash = cash + ? WHERE id = ?", deposit, user_id)
+            db.execute("COMMIT")
+            return redirect("/")
+        
+        else:
+            return apology("Invalid card number")
+
+    return render_template("deposit.html")

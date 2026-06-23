@@ -27,3 +27,21 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+form[action="/deposit"] {
+  margin-bottom: 1rem;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+h3.history-title {
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.table {
+  margin-bottom: 5rem;
+}
