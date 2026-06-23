@@ -10,6 +10,11 @@ def main():
     decoded_content = download.content.decode("utf-8")
     file = decoded_content.splitlines()
     reader = csv.DictReader(file)
+    # rows = list(reader)
+    # print(rows[3])
+    for row in reader:
+        print(row)
+        break
 
     # Construct 14 day lists of new cases for each states
     new_cases = calculate(reader)
@@ -21,10 +26,10 @@ def main():
 
     while True:
         state = input("State: ")
-        if state in new_cases:
-            states.append(state)
         if len(state) == 0:
             break
+        if state in new_cases:
+            states.append(state)
 
     print(f"\nSeven-Day Averages")
 

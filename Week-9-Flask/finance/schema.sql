@@ -23,7 +23,7 @@ CREATE INDEX transactions_user_id ON transactions (user_id);
 -- Cash movements
 CREATE TABLE cash_movements (
     user_id INTEGER NOT NULL,
-    movement_type TEXT NOT NULL CHECK(transaction_type IN ('deposit', 'withdrawal')),
+    movement_type TEXT NOT NULL CHECK(movement_type IN ('deposit', 'withdrawal')),
     amount REAL NOT NULL,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(user_id) REFERENCES users(id)

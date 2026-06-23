@@ -78,9 +78,9 @@ def buy():
         investment = price * shares
 
         user_cash_balance = db.execute("SELECT cash FROM users WHERE id = ?", user_id)[0]["cash"]
-        new_cash_balance = user_cash_balance - investment
 
         if user_cash_balance >= investment:
+            new_cash_balance = user_cash_balance - investment
             db.execute("BEGIN TRANSACTION")
             db.execute("INSERT INTO transactions (user_id, ticker, price, shares) VALUES(?, ?, ?, ?)", user_id, ticker, price, shares)
             db.execute("UPDATE users SET cash = ? WHERE id = ?", new_cash_balance, user_id)
@@ -208,7 +208,7 @@ def register():
 def sell():
     """Sell shares of stock"""
     user_id = session["user_id"]
-    portfolio = db.execute("SELECT DISTINCT ticker FROM transactions WHERE user_id = ?", user_id)
+    portfolio = db.execute("SELECT ticker FROM transactions WHERE user_id = ? GROUP BY ticker HAVING SUM(shares) > 0", user_id)
 
     if request.method == "POST":
         symbol = request.form.get("symbol")
@@ -227,7 +227,7 @@ def sell():
         if not shares or int(shares) < 1:
             return apology("Enter valid share amount")
         
-        total_shares = db.execute("SELECT sum(shares) AS total_shares FROM transactions WHERE ticker = ?", symbol)[0]["total_shares"]
+        total_shares = db.execute("SELECT sum(shares) AS total_shares FROM transactions WHERE ticker = ? AND user_id = ?", symbol, user_id)[0]["total_shares"]
         if shares > total_shares:
             return apology("You don't have enough stock")
         
@@ -258,7 +258,7 @@ def deposit():
         except ValueError:
             return apology("Enter deposit in valid format")
         
-        if not card_number.isdigit() or int(card_number) < 0:
+        if not card_number.isdigit():
             return apology("Enter valid card number")
         
         if not deposit or deposit < 0:
