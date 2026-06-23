@@ -35,8 +35,21 @@ def after_request(response):
 @login_required
 def index():
     """Show portfolio of stocks"""
+    user_id = session["user_id"]
+    net_worth = 0
 
-    return apology("Signed in")
+    portfolio = db.execute("SELECT ticker FROM transactions WHERE user_id = ? GROUP BY ticker HAVING SUM(shares) > 0", user_id)
+
+    for symbol in portfolio:
+        symbol["shares"] = db.execute("SELECT sum(shares) AS total_shares FROM transactions WHERE ticker = ? AND user_id = ?", symbol["ticker"], user_id)[0]["total_shares"]
+        symbol["price"] = lookup(symbol["ticker"])["price"]
+        symbol["investment"] = symbol["shares"] * symbol["price"]
+        net_worth += symbol["investment"]
+
+    user_cash_balance = db.execute("SELECT cash FROM users WHERE id = ?", user_id)[0]["cash"]
+    net_worth += user_cash_balance
+
+    return render_template("index.html", portfolio=portfolio, user_cash_balance=user_cash_balance, net_worth=net_worth)
 
 
 @app.route("/buy", methods=["GET", "POST"])
@@ -45,13 +58,14 @@ def buy():
     """Buy shares of stock"""
     if request.method == "POST":
         symbol = request.form.get("symbol")
-        company_data = lookup(symbol)
         shares = int(request.form.get("shares"))
 
         if not shares or int(shares) < 1:
             return apology("Enter valid share amount")   
         if not symbol:
             return apology("Enter symbol")
+        
+        company_data = lookup(symbol)
         if not company_data:
             return apology("Not a valid ticker")
         
@@ -83,7 +97,9 @@ def buy():
 @login_required
 def history():
     """Show history of transactions"""
-    return apology("TODO")
+    user_id = session["user_id"]
+    transactions = db.execute("SELECT * FROM transactions WHERE user_id = ? ORDER BY timestamp DESC", user_id)
+    return render_template("history.html", transactions=transactions)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -150,7 +166,7 @@ def quote():
         if not company_data:
             return apology("Not a valid ticker")
         
-        return render_template("quoted.html", name=company_data["name"], price=usd(company_data["price"]), symbol=company_data["symbol"])
+        return render_template("quoted.html", name=company_data["name"], price=company_data["price"], symbol=company_data["symbol"])
 
     return render_template("quote.html")
 
@@ -190,4 +206,39 @@ def register():
 @login_required
 def sell():
     """Sell shares of stock"""
-    return apology("TODO")
+    user_id = session["user_id"]
+    portfolio = db.execute("SELECT DISTINCT ticker FROM transactions WHERE user_id = ?", user_id)
+
+    if request.method == "POST":
+        symbol = request.form.get("symbol")
+        shares = int(request.form.get("shares"))
+
+        if not symbol:
+            return apology("Enter symbol")
+        
+        tickers = [row["ticker"] for row in portfolio]
+        if symbol not in tickers:
+            return apology("You don't own this")
+        
+        if not shares or int(shares) < 1:
+            return apology("Enter valid share amount")
+        
+        total_shares = db.execute("SELECT sum(shares) AS total_shares FROM transactions WHERE ticker = ?", symbol)[0]["total_shares"]
+        if shares > total_shares:
+            return apology("You don't have enough stock")
+        
+        company_data = lookup(symbol)
+        price = company_data["price"]
+        total_price = price * shares
+
+        user_cash_balance = db.execute("SELECT cash FROM users WHERE id = ?", user_id)[0]["cash"]
+        new_cash_balance = user_cash_balance + total_price
+
+        db.execute("BEGIN TRANSACTION")
+        db.execute("INSERT INTO transactions (user_id, ticker, price, shares) VALUES(?, ?, ?, ?)", user_id, symbol, price, -shares)
+        db.execute("UPDATE users SET cash = ? WHERE id = ?", new_cash_balance, user_id)
+        db.execute("COMMIT")
+
+        return redirect("/")
+    
+    return render_template("sell.html", portfolio=portfolio)
