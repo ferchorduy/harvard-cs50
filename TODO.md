@@ -1,0 +1,10 @@
+- [ ] Verify Week-6-Python/seven-day-averages/ numbers manually using CSV link
+- [ ] Update homepage/ and finance/ routinely as practice
+- [ ] Practice C in Week-3-Algorithms/supplemental/
+- [ ] Make OrduyLap as final project
+- [ ] 
+- [ ] 
+- [ ] 
+- [ ] 
+- [ ] 
+- [ ] 

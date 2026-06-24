@@ -7,7 +7,7 @@
 {% block main %}
     <form action="/deposit" method="post" class="d-flex justify-content-center gap-2">
         <input required autocomplete="off" autofocus inputmode="numeric" class="form-control w-auto" name="card_number" placeholder="Enter card number" type="text">
-        <input required autocomplete="off" class="form-control w-auto" name="deposit" step="0.01" placeholder="Add funds ($0.00)" type="number">
+        <input required autocomplete="off" class="form-control w-auto" name="deposit" step="0.01" placeholder="Add funds (0.00)" type="number">
         <button class="btn btn-primary" type="submit">Deposit</button>
     </form>
     <p>We only accept Visa, Mastercard, or American Express</p>
