@@ -9,15 +9,28 @@
   </head>
   <body>
     <header>
+      <a href="/">OrduyLap</a>
       <nav>
-        <a href="/">OrduyLap</a>
-        <ul>
-          <li><a href="#"></a>Sessions</li>
-          <li><a href="#"></a>How to Use</li>
-          <li><a href="#"></a></li>
-          <li><a href="#"></a></li>
-        </ul>
+        {% if session["user_id"] %}
+          <ul>
+            <li><a href="#">Register</a></li>
+            <li><a href="#">Login</a></li>
+          </ul>
+        {% else %}
+          <ul>
+            <li><a href="#">Register</a></li>
+            <li><a href="#">Login</a></li>
+          </ul>
+        {% endif %}
       </nav>
     </header>
+    <main>
+      {% block body %}
+      
+      {% endblock body %}
+    </main>
+    <footer>
+      Copyright &#169; 2026 <a href="https://www.github.com/ferchorduy" target="_blank">Fernando Orduy</a>
+    </footer>
   </body>
 </html>
