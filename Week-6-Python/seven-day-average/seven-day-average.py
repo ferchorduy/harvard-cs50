@@ -58,11 +58,9 @@ def calculate(reader):
         cases_today[state].append(cases)
             
     for state, total_cases in cases_today.items():
-        today = total_cases[:-1]
         yesterday = total_cases[1:]
+        today = total_cases[:-1]
         new_cases[state] = list(map(lambda x, y: int(x) - int(y), today, yesterday))
-
-        # print(f"{state} {new_cases[state]} {len(new_cases[state])}")
     
     return new_cases
 
@@ -72,19 +70,20 @@ def comparative_averages(new_cases, states):
     for state in states:
         if state in new_cases:
             this_week_cases = new_cases[state][0:7]
-            last_week_cases = new_cases[state][7:-1]
+            last_week_cases = new_cases[state][7:]
             this_week_average = round(sum(this_week_cases) / len(this_week_cases))
             last_week_average = round(sum(last_week_cases) / len(last_week_cases))
             try:
                 percent_weekly_change = round(((this_week_average - last_week_average) / last_week_average) * 100)
             except ZeroDivisionError:
                 print("No new cases last week")
+                continue
             if percent_weekly_change == 0:
-                print(f"{state} had a 7-day average of {this_week_average} and no change.")
+                print(f"{state} had a 7-day average in reported COVID cases of {this_week_average} and no change.")
             elif percent_weekly_change > 0:
-                print(f"{state} had a 7-day average of {this_week_average} and an increase of {percent_weekly_change}%.")
+                print(f"{state} had a 7-day average in reported COVID cases of {this_week_average} and an increase of {percent_weekly_change}%.")
             else:
-                print(f"{state} had a 7-day average of {this_week_average} and a decrease of {percent_weekly_change}%.")
+                print(f"{state} had a 7-day average in reported COVID cases of {this_week_average} and a decrease of {-percent_weekly_change}%.")
 
 
 def get_to_this_date(last_date: str, to_this_date: int):

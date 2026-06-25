@@ -8,6 +8,9 @@ from werkzeug.security import check_password_hash, generate_password_hash
 app = Flask(__name__)
 
 app.config["SESSION_PERMAMENT"] = False
-app.confif["SESSION_TYPE"] = "filesystem"
+app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
+@app.route("/")
+def layout():
+    return render_template("layout.html")
