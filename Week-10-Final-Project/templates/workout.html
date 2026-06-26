@@ -1,20 +1,24 @@
 {% extends "layout.html" %}
 
 {% block title %}
-  Workout
+  Home
 {% endblock %}
 
 {% block body %}
-  <div class="exercise">
-    <select name="exercise">
-      <option value="">Select exercise</option>
-      <option value="push-up">Push Up</option>
-      <option value="pull-up">Pull Up</option>
-      <option value="squat">Squat</option>
-    </select>
-    <input type="number" placeholder="Enter total reps">
-  </div>
-  <button>+</button>
-  <input type="number" placeholder="Enter minutes">
-  <button>Start workout</button>
-{% endblock body %}
+  <form action="/" method="post">
+    <div class="exercises">
+      <div class="exercise">
+        <select name="exercise_name">
+          <option value="">Select exercise</option>
+          <option value="push-up">Push Up</option>
+          <option value="pull-up">Pull Up</option>
+          <option value="squat">Squat</option>
+        </select>
+        <input name="exercise_reps" type="number" placeholder="Enter total reps">
+      </div>
+    </div>
+    <button id="add_exercise" type="button">+</button>
+    <input name="minutes" type="number" placeholder="Enter minutes">
+    <button type="button">Start workout</button>
+  </form>
+{% endblock %}

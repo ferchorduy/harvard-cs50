@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/static/styles.css" rel="stylesheet">
-
+    <script src="/static/scripts.js" defer></script>
     <title>OrduyLap: {% block title %}{% endblock %}</title>
   </head>
   <body>
@@ -25,9 +25,7 @@
       </nav>
     </header>
     <main>
-      {% block body %}
-      
-      {% endblock body %}
+      {% block body %}{% endblock %}
     </main>
     <footer>
       Copyright &#169; 2026 <a href="https://www.github.com/ferchorduy" target="_blank">Fernando Orduy</a>
