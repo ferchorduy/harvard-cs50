@@ -24,9 +24,10 @@ def after_request(response):
 
 
 @app.route("/")
-def layout():
+def index():
+    """Show history, or analytics of some sort, as home page"""
     return apology("TODO")
 
 @app.route("/workout")
-def begin_lap():
+def workout():
     return render_template("workout.html")
