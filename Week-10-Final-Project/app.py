@@ -44,27 +44,32 @@ def after_request(response):
 @login_required
 def index():
     """Home page"""
+    # Start new session button
+    # Last session recap
+    # This week toal data maybe? Streak indicator?
+    # For new users, not empty, but start first session UI
+
     return apology("To do")
 
 
 @app.route("/workout")
 @login_required
 def workout():
-    """ """
+    """Page to start workout session"""
     return render_template("workout.html")
 
 
 @app.route("/exercises")
 @login_required
 def exercises():
-    """ """
+    """Add exercises to the list"""
     return apology("To do")
 
 
 @app.route("/records")
 @login_required
 def records():
-    """ """
+    """Shows historical records and data"""
     return apology("To do")
 
 

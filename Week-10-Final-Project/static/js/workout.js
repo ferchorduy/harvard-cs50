@@ -5,15 +5,15 @@ const exercise = document.querySelector('.exercise');
 add_button.addEventListener('click', e => {
   const new_exercise = exercise.cloneNode(true);
 
-  const delete_button = document.createElement('button');
-  delete_button.classList.add('delete_button')
-  delete_button.textContent = '-';
-  delete_button.type = 'button';
+  const delete_exercise = document.createElement('button');
+  delete_exercise.classList.add('delete_exercise')
+  delete_exercise.textContent = '-';
+  delete_exercise.type = 'button';
 
-  new_exercise.appendChild(delete_button)
+  new_exercise.append(delete_exercise)
   exercises.append(new_exercise);
 
-  delete_button.addEventListener('click', () => {
+  delete_exercise.addEventListener('click', () => {
     new_exercise.remove();
   });
 });
