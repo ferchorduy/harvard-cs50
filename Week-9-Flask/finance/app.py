@@ -85,6 +85,7 @@ def buy():
             db.execute("INSERT INTO transactions (user_id, ticker, price, shares) VALUES(?, ?, ?, ?)", user_id, ticker, price, shares)
             db.execute("UPDATE users SET cash = ? WHERE id = ?", new_cash_balance, user_id)
             db.execute("COMMIT")
+            flash("Bought!")
             return redirect("/")
         
         else:
@@ -133,6 +134,7 @@ def login():
 
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
+        flash("Logged in!")
 
         # Redirect user to home page
         return redirect("/")
@@ -148,6 +150,7 @@ def logout():
 
     # Forget any user_id
     session.clear()
+    flash("Logged out!")
 
     # Redirect user to login form
     return redirect("/")
@@ -195,6 +198,7 @@ def register():
         
         try:
             db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, generate_password_hash(password))
+            flash("Registered!")
             return redirect("/login")
         except ValueError:
             return apology("USERNAME EXISTS!")
@@ -242,6 +246,7 @@ def sell():
         db.execute("INSERT INTO transactions (user_id, ticker, price, shares) VALUES(?, ?, ?, ?)", user_id, symbol, price, -shares)
         db.execute("UPDATE users SET cash = ? WHERE id = ?", new_cash_balance, user_id)
         db.execute("COMMIT")
+        flash("Sold!")
 
         return redirect("/")
     
@@ -271,6 +276,7 @@ def deposit():
             db.execute("INSERT INTO cash_movements (user_id, movement_type, amount) VALUES(?, ?, ?)", user_id, 'deposit', deposit)
             db.execute("UPDATE users SET cash = cash + ? WHERE id = ?", deposit, user_id)
             db.execute("COMMIT")
+            flash("Deposited!")
             return redirect("/")
         
         else:
