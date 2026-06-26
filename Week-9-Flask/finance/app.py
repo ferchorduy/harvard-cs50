@@ -5,13 +5,14 @@ from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from helpers import apology, login_required, lookup, usd, validate_card_number
+from helpers import apology, login_required, lookup, usd, validate_card_number, to_local
 
 # Configure application
 app = Flask(__name__)
 
-# Custom filter
+# Custom filters
 app.jinja_env.filters["usd"] = usd
+app.jinja_env.filters["to_local"] = to_local
 
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_PERMANENT"] = False

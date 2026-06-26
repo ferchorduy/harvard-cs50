@@ -1,8 +1,10 @@
 import requests
 import re
+import pytz
 
 from flask import redirect, render_template, session
 from functools import wraps
+from datetime import datetime
 
 
 def apology(message, code=400):
@@ -103,3 +105,10 @@ def validate_card_number(card_number):
     elif card_number[:1] == "4" and (card_number_length == 13 or card_number_length == 16): return True
     elif card_number_length == 16 and re.match("5[12345]", card_number): return True
     else: return False
+
+
+def to_local(utc_timestamp_str):
+    utc_dt = datetime.strptime(utc_timestamp_str, "%Y-%m-%d %H:%M:%S")
+    utc_dt = pytz.utc.localize(utc_dt)
+    local_dt = utc_dt.astimezone(pytz.timezone("America/New_York"))
+    return local_dt.strftime("%Y-%m-%d %I:%M %p")

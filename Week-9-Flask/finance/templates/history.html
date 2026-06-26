@@ -21,7 +21,7 @@
                     <td class="text-start">{{ stock["ticker"] }}</td>
                     <td class="text-end">{{ stock["shares"] }}</td>
                     <td class="text-end">{{ stock["price"] | usd }}</td>
-                    <td class="text-end">{{ stock["timestamp"] }}</td>
+                    <td class="text-end">{{ stock["timestamp"] | to_local }}</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -45,7 +45,7 @@
                 <tr>
                     <td class="text-start">{{ movement["movement_type"] }}</td>
                     <td class="text-end">{{ movement["amount"] | usd }}</td>
-                    <td class="text-end">{{ movement["timestamp"] }}</td>
+                    <td class="text-end">{{ movement["timestamp"] | to_local }}</td>
                 </tr>
             {% endfor %}
         </tbody>
